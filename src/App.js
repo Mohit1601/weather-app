@@ -63,6 +63,7 @@ function App() {
       }
     >
       <main>
+        <h1>Enter location to check Weather</h1>
         <div className="search-box">
           <input
             className="search-bar"
