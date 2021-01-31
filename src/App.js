@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const dateBuilder = (d) => {
   const months = [
@@ -40,10 +40,40 @@ const api_key = process.env.REACT_APP_API_KEY;
 function App() {
   const [query, setQuery] = useState("");
   const [weather, setWeather] = useState({});
+  const [lat, setlat] = useState(0);
+  const [lon, setlon] = useState(0);
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setlat(position.coords.latitude);
+          setlon(position.coords.longitude);
+          fetch(
+            `${base_url}weather?&units=metric&lat=${lat}&lon=${lon}&appid=${api_key}`
+          )
+            .then((res) => res.json())
+            .then((result) => {
+              setWeather(result);
+            });
+        },
+        (error) => {
+          console.error(error.message);
+        },
+        {
+          enableHighAccuracy: true,
+        }
+      );
+    } else {
+      alert("Geolocation API is not supported by your browser.");
+    }
+  }, [lat, lon]);
 
   const search = (event) => {
     if (event.key === "Enter") {
-      fetch(`${base_url}weather?q=${query}&units=metric&appid=${api_key}`)
+      fetch(
+        `${base_url}weather?q=${query}&units=metric&lat=${lat}&lon=${lon}&appid=${api_key}`
+      )
         .then((res) => res.json())
         .then((result) => {
           setWeather(result);
@@ -63,12 +93,11 @@ function App() {
       }
     >
       <main>
-        <h1>Enter location to check Weather</h1>
         <div className="search-box">
           <input
             className="search-bar"
             type="text"
-            placeholder="Search"
+            placeholder="Search City"
             onChange={(e) => setQuery(e.target.value)}
             value={query}
             onKeyPress={search}
