@@ -59,9 +59,6 @@ function App() {
         },
         (error) => {
           console.error(error.message);
-        },
-        {
-          enableHighAccuracy: true,
         }
       );
     } else {
@@ -71,14 +68,14 @@ function App() {
 
   const search = (event) => {
     if (event.key === "Enter") {
-      fetch(
-        `${base_url}weather?q=${query}&units=metric&lat=${lat}&lon=${lon}&appid=${api_key}`
-      )
-        .then((res) => res.json())
-        .then((result) => {
-          setWeather(result);
-          setQuery("");
-        });
+      if (query !== "") {
+        fetch(`${base_url}weather?q=${query}&units=metric&appid=${api_key}`)
+          .then((res) => res.json())
+          .then((result) => {
+            setWeather(result);
+            setQuery("");
+          });
+      }
     }
   };
 
