@@ -9,14 +9,14 @@ body {
 }
 
 .app {
-  background-image: url("./assets/cold-bg.jpg");
+  background-image: url("./assets/1253680.jpg");
   background-size: cover;
   background-position: bottom;
-  transition: 0.4s ease-in;
+  transition: 0.4s ease-out;
 }
 
 .app.warm {
-  background-image: url("./assets/warm-bg.jpg");
+  background-image: url("./assets/karsten-wurth-_V5auuPmA9s-unsplash.jpg");
 }
 
 main {
