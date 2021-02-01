@@ -40,15 +40,15 @@ const api_key = process.env.REACT_APP_API_KEY;
 function App() {
   const [query, setQuery] = useState("");
   const [weather, setWeather] = useState({});
-  const [lat, setlat] = useState(0);
-  const [lon, setlon] = useState(0);
+
+  var lat, lon;
 
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setlat(position.coords.latitude);
-          setlon(position.coords.longitude);
+          lat = position.coords.latitude;
+          lon = position.coords.longitude;
           fetch(
             `${base_url}weather?&units=metric&lat=${lat}&lon=${lon}&appid=${api_key}`
           )
