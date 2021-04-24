@@ -69,7 +69,8 @@ function App() {
   const search = (event) => {
     if (event.key === "Enter") {
       if (query !== "") {
-        fetch(`${base_url}weather?q=${query}&units=metric&appid=${api_key}`)
+        const q = query.trim();
+        fetch(`${base_url}weather?q=${q}&units=metric&appid=${api_key}`)
           .then((res) => res.json())
           .then((result) => {
             setWeather(result);
